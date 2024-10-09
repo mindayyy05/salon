@@ -33,4 +33,7 @@ class DatabaseSeeder extends Seeder
         ]);
         $customerUser->assignRole($customerRole);
     }
+
+
+    
 }

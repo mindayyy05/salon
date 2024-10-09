@@ -6,10 +6,6 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\StylistController;
 use App\Http\Controllers\Api\AppointmentController;
-use App\Http\Controllers\DashboardController;
-
-
-
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,5 +27,7 @@ Route::middleware(['role:admin'])->group(function () {
     Route::resource('services', ServiceController::class);
     Route::resource('stylists', StylistController::class);
     Route::get('appointments', [AppointmentController::class, 'index'])->name('appointments.index'); // View appointments
-    Route::post('appointments/{id}/status', [AppointmentController::class, 'updateStatus'])->name('appointments.updateStatus');
+Route::post('appointments/{id}/status', [AppointmentController::class, 'updateStatus'])->name('appointments.updateStatus');
 });
+
+

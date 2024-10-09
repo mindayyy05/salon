@@ -12,12 +12,24 @@ class UserController extends Controller
     /**
      * Display a listing of the users.
      */
-    public function index()
+   /*  public function index()
     {
         $users = User::all(); // Fetch all users
         return view('users.index', compact('users')); // Pass users to the view
+    } */
+    public function index()
+    {
+        $users = User::all(); // Fetch all users
+        
+        // Fetch role names and count the users for each role
+        $roles = Role::all()->pluck('name'); // Get role names as a collection
+        $counts = $roles->map(function($role) {
+            return User::role($role)->count(); // Count users per role
+        });
+    
+        return view('users.index', compact('users', 'roles', 'counts')); // Pass users, roles, and counts to the view
     }
-
+    
     /**
      * Show the form for creating a new user.
      */
@@ -96,6 +108,9 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+        session()->flash('success', 'User deleted successfully.');
         return redirect()->route('users.index')->with('success', 'User deleted successfully.');
+
+        
     }
 }

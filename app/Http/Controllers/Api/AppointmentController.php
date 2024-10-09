@@ -66,4 +66,16 @@ class AppointmentController extends Controller
             return redirect()->route('appointments.index')->with('error', 'Failed to update appointment status: ' . $e->getMessage());
         }
     }
+
+    // Fetch all appointments for a specific user (From Flutter App)
+    public function getAppointmentsByUser($userId)
+    {
+       
+        try {
+            $appointments = Appointment::where('user_id', $userId)->with('service', 'stylist')->get();
+            return response()->json($appointments, 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to retrieve appointments: ' . $e->getMessage()], 500);
+        }
+    }
 }
